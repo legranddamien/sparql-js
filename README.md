@@ -24,7 +24,15 @@ Here is a quick and easy request. Other examples are in the index.html file.
 
 	distinct(trueOrFalse)
 
+	select(aGraphURIToSelect)
+
+	insert(aGraphURIToInsert)
+
+	delete(aGraphURIToDelete, condtion)
+
 	variable(aVariableName)
+
+	vars(anArrayOfVariableNames)
 
 	where(subject, predicate, object)
 
