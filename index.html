@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>SPARQL Javascript Test</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+		<script src="sparql.js"></script>
+		<script>
+		
+			function table(vars, result)
+			{
+				$('body').append('<table></table>');
+				var table = $('table');
+				
+				var str = "<tr>";
+				for(var i = 0; i < vars.length; i++)
+				{
+					str += '<th>'+vars[i]+'</th>';
+				}
+				
+				str += "</tr>";
+				
+				table.append(str);
+				
+				str = "";
+				for(var i = 0; i < result.length; i++)
+				{
+					str += "<tr>";
+					
+					for(var j = 0; j < vars.length; j++)
+					{
+						if(result[i].hasOwnProperty(vars[j])) str += '<td>'+result[i][vars[j]]['value']+'</td>';
+						else str += '<td></td>';
+					}
+					
+					str += "</tr>";
+				}
+				
+				table.append(str);
+			}
+			
+			$(function(){
+				
+			// TEST 1 //
+			
+			/*	
+				var test = new SPARQL();
+				test.setInfo($('h1'));
+				
+				test.distinct(true)
+				.variable("?x").variable("?y").variable("?ylabel").variable("?z")
+					.where("?x", "?y", "?z")
+					.optionalWhere("?y", "rdfs:label", "?ylabel")
+					.filter("?y!=<http://dbpedia.org/ontology/wikiPageWikiLink>")
+					.filter("?x=<http://dbpedia.org/resource/Metallica> || ?x=<http://dbpedia.org/resource/Nine_Inch_Nails>");
+					
+				test.execute(function(data, info)
+				{
+					console.log(data);
+					console.log(info);
+					
+					var vars =  data.head.vars;
+					var result = data.results.bindings;
+					
+					info.remove();
+					
+					table(vars, result);
+					
+				});
+				
+				console.log(test.sparql); 
+			*/
+			
+			// TEST 2 //
+			
+			/*
+				var artists = ["Metallica", "Vitalic", "The Doors"];
+				
+				var sparqls = [];
+				
+				for(var i = 0; i < artists.length; i++)
+				{
+					var test = new SPARQL();
+					test.info = $('h1');
+					test.variable("?t")
+						.where("?t", "rdfs:label", '"' + artists[i] + '"@en')
+						.where("?t", "rdf:type", "?ttype")
+						.filter("?ttype=<http://dbpedia.org/ontology/Band> || ?ttype=<http://dbpedia.org/ontology/MusicalArtist>");
+					
+					sparqls.push(test);
+				}
+				
+				for(var i = 1; i < sparqls.length; i++)
+				{
+					sparqls[0].union(sparqls[i]);
+				}
+					
+				sparqls[0].execute(function(data, info){
+					var vars =  data.head.vars;
+					var result = data.results.bindings;
+					
+					info.remove();
+					
+					table(vars, result);
+				});
+			*/
+				
+			// TEST 3 //
+			
+			/*
+				var request = new SPARQL();
+				request.info = $('h1');
+			
+				request.variable("?x").variable("?y")
+						.where("<http://dbpedia.org/resource/Metallica>", "?x", "?y");
+						
+				request.execute(function(data, info){
+					
+					var vars =  data.head.vars;
+					var result = data.results.bindings;
+					
+					info.remove();
+					
+					table(vars, result);
+					
+				});
+				
+			*/
+				
+				var query = "SELECT DISTINCT ?x, ?y, ?ylabel, ?z WHERE { ?x ?y ?z . OPTIONAL {?y rdfs:label ?ylabel} . FILTER ( ?y!=<http://dbpedia.org/ontology/wikiPageWikiLink> ) . FILTER ( lang(?ylabel ) = 'en' ) . FILTER ( ?x=<http://dbpedia.org/resource/The_Downward_Spiral> || ?x=<http://dbpedia.org/resource/Pretty_Lights> || ?x=<http://dbpedia.org/resource/Metallica> || ?x=<http://dbpedia.org/resource/Radiohead> || ?x=<http://dbpedia.org/resource/Daft_Punk> || ?x=<http://dbpedia.org/resource/Rammstein> || ?x=<http://dbpedia.org/resource/Red_Hot_Chili_Peppers> || ?x=<http://dbpedia.org/resource/Linkin_Park> || ?x=<http://dbpedia.org/resource/Gorillaz> || ?x=<http://dbpedia.org/resource/Green_Day> || ?x=<http://dbpedia.org/resource/Benny_Benassi> || ?x=<http://dbpedia.org/resource/Serj_Tankian> || ?x=<http://dbpedia.org/resource/Soulwax> || ?x=<http://dbpedia.org/resource/The_Faint> || ?x=<http://dbpedia.org/resource/Matchbook_Romance> || ?x=<http://dbpedia.org/resource/Massive_Attack> || ?x=<http://dbpedia.org/resource/A_Perfect_Circle> || ?x=<http://dbpedia.org/resource/Street_Sweeper_Social_Club> || ?x=<http://dbpedia.org/resource/Fall_Out_Boy> || ?x=<http://dbpedia.org/resource/Marilyn_Manson> || ?x=<http://dbpedia.org/resource/Deftones> || ?x=<http://dbpedia.org/resource/John_Dahlb%C3%A4ck> || ?x=<http://dbpedia.org/resource/Mr._Oizo> || ?x=<http://dbpedia.org/resource/Nine_Inch_Nails> || ?x=<http://dbpedia.org/resource/Surkin> || ?x=<http://dbpedia.org/resource/The_Dark_Knight_Rises> || ?x=<http://dbpedia.org/resource/How_High> || ?x=<http://dbpedia.org/resource/Ali_G_Indahouse> || ?x=<http://dbpedia.org/resource/Fight_Club> || ?x=<http://dbpedia.org/resource/The_Matrix_Reloaded> || ?x=<http://dbpedia.org/resource/The_IT_Crowd> || ?x=<http://dbpedia.org/resource/Nip/Tuck> || ?x=<http://dbpedia.org/resource/Futurama> || ?x=<http://dbpedia.org/resource/The_Big_Bang_Theory> || ?x=<http://dbpedia.org/resource/How_I_Met_Your_Mother> || ?x=<http://dbpedia.org/resource/South_Park> || ?x=<http://dbpedia.org/resource/Rob_Sheridan> || ?x=<http://dbpedia.org/resource/ITunes> ) }";
+				var req = new SPARQL();
+				req.sparql = query;
+				req.info = $('h1');
+				
+				req.execute(function(data, info){
+					
+					console.log(data);
+					
+					/*var vars =  data.head.vars;
+					var result = data.results.bindings;
+					*/
+					
+					info.remove();
+					
+					//table(vars, result);
+					
+				}, true);
+			
+				
+			});
+			
+		</script>
+	</head>
+	<body>
+		<h1>SPARQL running. Please wait</h1>
+	</body>
+</html>
