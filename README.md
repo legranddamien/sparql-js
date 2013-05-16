@@ -44,6 +44,8 @@ Here is a quick and easy request. Other examples are in the index.html file.
 
 	orderBy(order)
 
+	groupBy(variable)
+
 	limit(limitNumber)
 
 	offset(offsetNumber)
