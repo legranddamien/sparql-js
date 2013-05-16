@@ -63,3 +63,5 @@ There are some values set by default in this classe :
 	queryParam //parameter name for the query (GET or POST)
 
 	formatParam //parameter name to ask the returned format
+
+	formatAjax //dataType for Jquery's Ajax request

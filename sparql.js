@@ -23,6 +23,7 @@ function SPARQL()
 	
 	//The result's type
 	this.format 		= "json";
+	this.formatAjax     	= "json";
 	
 	//The GET or POST parameter name for the query
 	this.queryParam 	= "query";
@@ -98,16 +99,7 @@ function SPARQL()
 		
 		if(this.distinctSelect) sp += "DISTINCT ";
 		
-		if(this.variables.length > 0 && this.insertGraph == null && this.deleteGraph == null)
-		{
-			var first = true;
-			for(int = 0; i < this.variables.length; i++)
-			{
-				if(first) first = false;
-				else if(i < this.variables.length) sp += " ";
-				sp += this.variables[i];
-			}
-		}
+		if(this.variables.length > 0 && this.insertGraph == null && this.deleteGraph == null) sp += this.variables.join(" ");
 		else if(this.insertGraph == null && this.deleteGraph == null) sp += "*";
 		
 		//WHERES 
@@ -149,25 +141,10 @@ function SPARQL()
 		if(this.selectGraph != null) sp += " } ";
 		
 		//GROUP BY
-		if(this.groupBy.length > 0)
-		{
-			sp += "GROUP BY ";
-			for(var i = 0; i < this.groupBy.length; i++)
-			{
-				sp += this.groupBy[i] + " ";
-			}
-		}
+		if(this.groupBy.length > 0) sp += "GROUP BY " + this.groupBy.join(" ");
 
 		//ORDER BY
-		if(this.orders.length > 0)
-		{
-			sp += "ORDER BY ";
-			var first = true;
-			for(var i = 0; i < this.orders.length; i++)
-			{
-				sp += this.orders[i] + " ";
-			}
-		}
+		if(this.orders.length > 0) sp += "ORDER BY " + this.orders.join(" ");
 		
 		//LIMIT
 		if(this.limitNb != null) sp += "LIMIT " + this.limitNb + "\n";
@@ -209,7 +186,7 @@ function SPARQL()
 			type: this.method,
 			url: this.baseUrl,
 			data: data,
-			dataType: this.format
+			dataType: this.formatAjax
 		}).done(function( data ) {
 			callback(data, cur.info);
 			cur.sparql = "";
